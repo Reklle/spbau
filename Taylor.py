@@ -8,7 +8,7 @@ def StirlingS1(n, k):   #Stirling numbers of the first kind
     return StirlingS1(n-1, k-1) - (n-1)*StirlingS1(n-1, k)
 
 
-def Pochhammer(a, n):
+def Pochhammer(a, n):   #https://functions.wolfram.com/GammaBetaErf/Pochhammer/06/01/01/01/02/0001/
     Sum = 0.0
     k = 0
     while(k<=n):
@@ -18,7 +18,7 @@ def Pochhammer(a, n):
     return Sum
 
 
-def Arcsinh(x):     #an taylor serie for real numbers |x| < 1
+def Arcsinh(x):     #taylor serie for real numbers |x| <= 1
     k = 0
     Sum = 0.0
     while(k < 14):
