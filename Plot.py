@@ -6,8 +6,10 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
+#My Visual Studio doesn't support constructions like __name__=='__main__'
+#I don't know why
 
-def KapitzaPendulum(T, θ, dθ, ψ, A, L, sF):
+def KapitzaPendulum(T, θ, dθ, ψ, A, L, sF): #initialize a new function
     t = 0
     dt = 0.0001 #delta time
     ret = []    #the returned array
