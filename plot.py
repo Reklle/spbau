@@ -14,11 +14,11 @@ def KapitzaPendulum(T, θ, dθ, ψ, A, L, sF): #initialize a new function
     dt = 0.0001 #delta time
     ret = []    #the returned array
     while(t < T - dt):
-        x = A * np.sin(ψ * t);  #положение подвеса
-        ddθ = -(9.8 + ψ * ψ*x) * np.sin(θ)/L;   #acceleration
-        dθ += ddθ * dt;     #velocity
-        θ += dθ * dt;       #angle
-        t += dt;
+        x = A * np.sin(ψ * t)  #положение подвеса
+        ddθ = -(9.8 + ψ * ψ*x) * np.sin(θ)/L   #acceleration
+        dθ += ddθ * dt     #velocity
+        θ += dθ * dt       #angle
+        t += dt
         ret.append(sF(θ, dθ, ddθ))  #append element
     return (np.arange(0, T, dt), ret)
 
