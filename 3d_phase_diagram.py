@@ -15,10 +15,9 @@ a = 0.1         #amplitude of oscillations
 
 DATA = ([], [], [], [])     #t, θ, dθ, ddθ
 
-#fig, axes = plt.subplots(4, 4)
 T = 100
 while(t < T):
-    x = a * np.sin(frec * t)                   #положение подвеса
+    x = a * np.sin(frec * t)                          #положение подвеса
     accl = -(9.8 + frec * frec*x) * np.sin(angl)      #acceleration
     vlc += accl * dt      #velocity
     angl += vlc * dt      #angle
