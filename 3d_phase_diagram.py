@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 #import libs
@@ -11,15 +11,14 @@ t = 0           #current time
 angl = 0.1      #inicoal angle
 vlc = 0         #inicoal velocity
 frec = np.pi*17 #frequency of oscillations
-A = 0.1         #amplitude of oscillations
-L = 1           #length
+a = 0.1         #amplitude of oscillations
 
 DATA = ([], [], [], [])     #t, θ, dθ, ddθ
 
 #fig, axes = plt.subplots(4, 4)
 T = 100
 while(t < T):
-    x = A * np.sin(frec * t)                   #положение подвеса
+    x = a * np.sin(frec * t)                   #положение подвеса
     accl = -(9.8 + frec * frec*x) * np.sin(angl)      #acceleration
     vlc += accl * dt      #velocity
     angl += vlc * dt      #angle
