@@ -23,14 +23,14 @@ Theory of L-systems is way too difficult, thus I don't know what exactly I creat
 
 
 # Gallery
-herbarium.py can generate not only grass, even figures (carpet_0.png) and
+My program can generate not only grass, but even other interesting figures.
 
 
 # About terminology:
 LSystem is algorithm for generation nature-like systems
 I used it for generating a graph, which uses in plant drawing
 
-LAutomaton is a special system. A merge between l-systems and cellular automatons
+LAutomaton is a special system: a merge between l-systems and cellular automatons
 * seed = dictionary for LAutomaton
 
 
@@ -38,19 +38,21 @@ LAutomaton is a special system. A merge between l-systems and cellular automaton
 # Genetics:
 As all the parts of my project, this was an experiment. Probably fail, probably successful.
 ...
+Process of selections of good seeds:
 * it was generated and rendered above of 1000 random pictures of plants
 * after that, I chose ~50 the best seeds
 * after that, there are 6 stages of artificial selection of the best seeds
-* now I have around 100 good seed 
+* now, there is around 100 good seed 
 ...
-Actually, a percent of good-looking plants now is bigger than before using genetics,
-so this is usable enough.
+A percent of good-looking plants now is bigger than before using genetics,
+so this is usable enough technique.
 
 # Rendering
 One of the most important parts of rendering is color.
 With proper their combinations it's easy to create realistic structure.
-
+* The render uses a lot of normal distributions for computing properies, probably, 
+* Settings for drawing saved in .json format.
 
 # Conclusion
-My program can draw nature-like plants with interesting algorithms.
+My program can draw nature-like plants with an interesting algorithms.
 This technique could be used with other for generation fractal structures.
