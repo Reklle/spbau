@@ -50,6 +50,7 @@ so this is usable enough.
 One of the most important parts of rendering is color.
 With proper their combinations it's easy to create realistic structure.
 
+
 # Conclusion
 My program can draw nature-like plants with interesting algorithms.
 This technique could be used with other for generation fractal structures.
