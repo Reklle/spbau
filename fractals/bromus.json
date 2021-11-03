@@ -1,0 +1,17 @@
+{
+"alpha": 1,
+"main color": [0.63, 0.56, 0.44, 1],
+"noise color": [0, 0, 0, 1],
+  "noise": [0.2, 0.1],
+"trunk color": [0.58, 0.65, 0.35, 1],
+"flower color": [0.81, 0.71, 0.23, 1],
+"color_mix_f": [1, 0.2],
+
+"length": [1, 0.3],
+"width": [2, 0.5],
+"dangle":  [0.27, 0.05],
+  "trunk_dangle": [0,0],
+"lenght_mtpr":  [0.9999, 0.0],
+"width_mtpr":  [0.7, 0.1],
+"dangle_mtpr":  [1, 0.1]
+}
