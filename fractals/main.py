@@ -265,7 +265,7 @@ def main():
 
     # drawing
     grass = Grass(g, ctx)
-    grass.import_settings("tianshui.json") # bromus typha
+    grass.import_settings("bromus.json")
 
     grass.prerender()
     # if plant is
