@@ -22,20 +22,26 @@ Theory of L-systems is way too difficult, thus I don't know what exactly I creat
 
 
 
-# Gallery
+## Gallery
 My program can generate not only grass, but even other interesting figures.
+There is a lot of examples of generates plants photos
 
 
-# About terminology:
-LSystem is algorithm for generation nature-like systems
-I used it for generating a graph, which uses in plant drawing
+## LSystem
+Tt's a class for generation nature-like systems.
+I used it for generating a graph, which uses in plant rendering
+see more in "main.py", comain()
 
-LAutomaton is a special system: a merge between l-systems and cellular automatons
+## LAutomaton
+It's a special system: a merge between l-systems and cellular automatons
+This works looks like L systems, but they can create more interesting systems
+see more in "main.py", main()
+Note:
 * seed = dictionary for LAutomaton
 
 
 
-# Genetics:
+## Genetics:
 As all the parts of my project, this was an experiment. Probably fail, probably successful.
 ...
 Process of selections of good seeds:
