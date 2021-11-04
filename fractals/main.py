@@ -11,8 +11,8 @@ import genetics
 import tools
 
 # some constants
-WIDTH = 600
-HEIGHT = 1000
+WIDTH = 1200
+HEIGHT = 1200
 DO_OPEN = 0  # open generated photos
 
 BGCOLOR = np.array([0.8, 0.8, 0.8])
@@ -91,7 +91,9 @@ class Render:
         self.ctx.paint()
 
     def stop_rendering(self, rewrite=1, prefix="graph"):
-        """return: name of new file"""
+        """return: name of new file
+        0 - rewrite
+        1 - create a new file"""
         if rewrite == 0:
             while os.path.isfile(prefix + "_" + str(self.n) + ".png"):
                 self.n += 1
@@ -162,8 +164,8 @@ class Grass:
         l = []
         s = tools.debracket(self.s)
         h = self.length[0] * len(s)
-        self.length[0] *= 0.5 * HEIGHT / h
-        self.length[1] *= 0.5 * HEIGHT / h
+        self.length[0] *= HEIGHT / h
+        self.length[1] *= HEIGHT / h
         return h
 
     def render(self, pos=[WIDTH / 2, HEIGHT]):
@@ -182,7 +184,7 @@ class Grass:
         self.color_trunk[3] = self.alpha
         self.color_flower[3] = self.alpha
 
-        z = np.array([0,0])
+        z = np.array([0, 0])
 
         for i in range(0, m):
             angle.append(0)
@@ -233,7 +235,7 @@ class Grass:
 
 
 def main():
-    gen = genetics.Genetics("seeds_5.npy")
+    gen = genetics.Genetics("seeds_3.npy")
     gen.download()
     render = Render()
     ctx = render.ctx
@@ -242,15 +244,15 @@ def main():
     # s = gen.random_seed()
 
     # option 1
-    s = gen.random_from_file()
+    # s = gen.random_from_file()
 
     # option 2
-    # s = {'010': '33', '011': '3', '012': '33', '013': '1', '020': '2[2]', '021': '2[2]', '022': '2', '023': '1',
-    #     '030': '1', '031': '33', '032': '33', '033': '2', '110': '2[2]', '111': '2[3]', '112': '1', '113': '2[2]',
-    #     '120': '2', '121': '1', '122': '33', '123': '1', '130': '1', '131': '3[1]', '132': '2[2]', '133': '2[2]',
-    #     '210': '[2]3', '211': '33', '212': '1', '213': '2', '220': '33', '221': '2[3]', '222': '33', '223': '3',
-    #     '230': '1[1]', '231': '3', '232': '2[2]', '233': '1', '310': '32', '311': '3', '312': '1', '313': '3',
-    #     '320': '1', '321': '2', '322': '2[2]', '323': '33', '330': '32', '331': '31', '332': '3', '333': '1'}
+    s = {'010': '33', '011': '3', '012': '33', '013': '1', '020': '2[2]', '021': '2[2]', '022': '2', '023': '1',
+         '030': '1', '031': '33', '032': '33', '033': '2', '110': '2[2]', '111': '2[3]', '112': '1', '113': '2[2]',
+         '120': '2', '121': '1', '122': '33', '123': '1', '130': '1', '131': '3[1]', '132': '2[2]', '133': '2[2]',
+         '210': '[2]3', '211': '33', '212': '1', '213': '2', '220': '33', '221': '2[3]', '222': '33', '223': '3',
+         '230': '1[1]', '231': '3', '232': '2[2]', '233': '1', '310': '32', '311': '3', '312': '1', '313': '3',
+         '320': '1', '321': '2', '322': '2[2]', '323': '33', '330': '32', '331': '31', '332': '3', '333': '1'}
 
     # option 3
     # s = gen.weak_breeding(0.1) # float is a percent of changed genes
@@ -268,12 +270,30 @@ def main():
     grass.import_settings("bromus.json")
 
     grass.prerender()
+    grass.length /= 2
     # if plant is
     # grass.length[0] = 3
-
+    grass.alpha = 0.8
     grass.render([WIDTH / 2, HEIGHT])
     render.stop_rendering(1)
 
 
+def comain():
+    # simplified code for drawing L systems
+
+    render = Render()  # initialize render
+    ctx = render.ctx
+    x = LSystem("X", {"X": "FF[-X]F[+X]FX", "F": "FF"})
+
+    # drawing
+    draft.WIDTH, draft.HEIGHT = WIDTH, HEIGHT
+    seed = x.generate(8)
+    scale = draft.prerender(seed)
+    draft.draft_render(seed, ctx, scale, tools.radians(35), 1, WIDTH / 2, HEIGHT)
+    # you cam use also squiggly_render with the same arguments
+    render.stop_rendering(1)
+
+
 if __name__ == "__main__":
+    # comain()
     main()
