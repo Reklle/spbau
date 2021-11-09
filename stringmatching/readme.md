@@ -18,8 +18,12 @@
   * ACTGMathing.rk 
   * ACTGMathing.mrk
 
+
 ### Fails:
 * Hight-perfomance rolling hash (was deleted by reason of low perfomance)
 * Boyer-Moore-Horspool string-searching algorithm haven't realized
 * Numpy and cupy aren't good solutions for this type of problems.
-* 
+* ACTGMathing.rk doesn't work with cuda
+* ACTGMathing.mrk works extreamly bad
+
+Actually, it was an experiment. It was kind of a failure, but it was interesting to solve problems with that code.
