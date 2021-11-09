@@ -3,7 +3,7 @@ import numpy as xp  # here imported or numpy or cupy
 from typing import Final
 
 COMPUTING_DEVICE: Final = "CPU"
-APPROX_SEARCH = False
+APPROX_SEARCH = False  # for little faster search
 
 
 def change_computing_device(enable_cuda: bool):
@@ -127,29 +127,8 @@ class StringMatching:
                 if APPROX_SEARCH or xp.array_equal(self.haystack[i:i + n], needle):
                     yield i
 
-    def bmh(self, needle):
-        """Boyer-Moore-Horspool string-searching algorithm"""
-        h, n = len(self.haystack), len(needle)
-        offsets = {}
-        for i in range(n):
-            offsets.update({needle[i]: n - i - 1})
-        i = n - 1
-        j = i
-        k = i
-        while j >= 0 and i < h:
-            j = h - 1
-            k = i
-            while j >= 0 and j < n and self.haystack[k] == needle[j]:
-                j, k = j - 1, k - 1
-            i += offsets[self.haystack[i]]
-        yield 0
-
 
 class ACTGMathing:
-    """Bio-informatics one"""
-
-    haystack = xp.array([], dtype=xp.uint64)
-
     def __init__(self, haystack):
         self.haystack = xp.array(bytearray(haystack.encode('ascii')))
 
@@ -197,7 +176,7 @@ class ACTGMathing:
         return h - len(needle) - ret
 
     def naive(self, needle):
-        """Naive realisation of string-searching algorithm"""
+        """Naive realisation of string-searching algorithm."""
         h, n = len(self.haystack), len(needle)
         for i in range(0, h - n + 1):
             ok = True
@@ -208,22 +187,16 @@ class ACTGMathing:
             if ok:
                 yield i
 
-    def hash(self, x: xp.array) -> xp.uint64:
-        """simple (handmade) hash function"""
-        base = xp.uint64(103)
-        pwr = xp.cumprod(xp.full(len(x), base), dtype=xp.uint64)  # list of powers
-        return xp.dot(pwr, x)
-
     def rk(self, needle: str):
         h = len(self.haystack)
         n = len(needle)
         needle = xp.array(bytearray(needle.encode('ascii')))
         hash_table = xp.full(h - n + 1, xp.uint64(14695981039346656037))
-        nhash = xp.uint64(14695981039346656037)
+        nhash = xp.uint64(14695981039346656037)  # prime number
         data = xp.array(self.haystack[0:h - n + 1], dtype=xp.uint64)
-        a = xp.uint64(1099511628211)
+        a = xp.uint64(1099511628211)  # prime number
 
-        # fnv_1a hash
+        # computing fnv_1a hash
         for i in range(0, n):
             nhash = xp.bitwise_xor(nhash, needle[i])
             nhash = xp.multiply(nhash, a)
@@ -238,19 +211,32 @@ class ACTGMathing:
                 if APPROX_SEARCH or xp.array_equal(self.haystack[i:i + n], needle):
                     yield i
 
-    def srk(self, needle: str):
-        # todo
+    def mrk(self, needle: str):
+        """Works very unstable"""
         h = len(self.haystack)
         n = len(needle)
-        prime = xp.uint64(14695981039346656037)
-        hash_table = xp.full(h - n + 1, xp.uint64(14695981039346656037))
-        data = xp.array(self.haystack[0:h - n + 1], dtype=xp.uint64)
+        m = h - n + 1
+        needle = xp.array(bytearray(needle.encode('ascii')), dtype=xp.uint64)
 
-        nhash = 0
+        # prime = xp.uint64(14695981039346656037)
+        # it's pretty difficult to use prime numbers
 
-        DATA = data * xp.array([[1]] * n, dtype=xp.uint64)
-        mask = xp.tri(n, h - n + 1, k=1, dtype=xp.uint64) - xp.tri(n, h - n + 1, k=-1, dtype=xp.uint64)
-        z = DATA * mask + xp.ones((n, h - n + 1), dtype=xp.uint64)
-        z = xp.cumprod(z * prime, dtype=xp.uint64, axis=1)
-        for i in range(0, len(z)):
-            print(z[i][h - n])
+        nhash = 1
+
+        pcv =  xp.array([[1]] * m, dtype=xp.uint64)  # covector
+        pcv = xp.cumprod(pcv, axis=0, dtype=xp.uint64)  # powers of the prime number
+
+        data = xp.array(self.haystack, dtype=xp.uint64)*pcv
+        mask = xp.tri(h, h - n + 1, k=0, dtype=xp.uint64) - xp.tri(h, h - n + 1, k=-n, dtype=xp.uint64)
+
+        # alternarning_matrix = xp.cumprod(xp.array([-1] * m)) * xp.cumprod(xp.array([[-1]] * h), axis=0)
+        # there is no possibility to find proper n-cyclic group over natural numbers for n > 2 :(
+
+        z = xp.transpose(data)*mask + xp.ones((h, m), dtype=xp.uint64)
+        hash_table = xp.cumprod(z, axis=0)[h-1]
+        nhash = xp.cumprod(needle+xp.ones(n), dtype=xp.uint64)[n-1]
+
+        for i in range(h - n + 1):
+            if hash_table[i] == nhash:
+                if APPROX_SEARCH or xp.array_equal(self.haystack[i:i + n], needle):
+                    yield i
