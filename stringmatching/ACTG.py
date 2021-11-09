@@ -2,8 +2,6 @@ import numpy as xp  # here imported or numpy or cupy
 
 from typing import Final
 
-import random
-
 COMPUTING_DEVICE: Final = "CPU"
 APPROX_SEARCH = False  # for little faster search
 
@@ -130,9 +128,6 @@ class StringMatching:
                     yield i
 
 
-
-
-
 class ACTGMathing:
     def __init__(self, haystack):
         self.haystack = xp.array(bytearray(haystack.encode('ascii')))
@@ -220,10 +215,9 @@ class ACTGMathing:
     def rk(self, needle):
         h, n = len(self.haystack), len(needle)
         needle = xp.array(bytearray(needle.encode('ascii')), dtype=xp.uint64)
-        
+
         q = xp.uint64(2097169)  # prime number
         b = xp.uint64(699007)  # prime base
-        c = xp.uint64(2262830726078993791)  # conjugated for b
         pow = xp.uint64(1)
 
         nhash = xp.uint64(0)
@@ -234,12 +228,11 @@ class ACTGMathing:
             pow = xp.mod(pow * b, q)
         if hash == nhash:
             yield 0
-        for i in range(0, h-n):
-            hash = hash*b - self.haystack[i] * pow + self.haystack[i+n]
+        for i in range(0, h - n):
+            hash = hash * b - self.haystack[i] * pow + self.haystack[i + n]
             hash = xp.mod(hash, q)
-            #pow = xp.mod(pow * b, q)
             if hash == nhash:
-                yield i+1
+                yield i + 1
 
     def mrk(self, needle: str):
         """Works very unstable"""
@@ -251,20 +244,18 @@ class ACTGMathing:
         # prime = xp.uint64(14695981039346656037)
         # it's pretty difficult to use prime numbers
 
-        nhash = 1
-
-        pcv =  xp.array([[1]] * m, dtype=xp.uint64)  # covector
+        pcv = xp.array([[1]] * m, dtype=xp.uint64)  # covector
         pcv = xp.cumprod(pcv, axis=0, dtype=xp.uint64)  # powers of the prime number
 
-        data = xp.array(self.haystack, dtype=xp.uint64)*pcv
+        data = xp.array(self.haystack, dtype=xp.uint64) * pcv
         mask = xp.tri(h, h - n + 1, k=0, dtype=xp.uint64) - xp.tri(h, h - n + 1, k=-n, dtype=xp.uint64)
 
         # alternarning_matrix = xp.cumprod(xp.array([-1] * m)) * xp.cumprod(xp.array([[-1]] * h), axis=0)
         # there is no possibility to find proper n-cyclic group over natural numbers for n > 2 :(
 
-        z = xp.transpose(data)*mask + xp.ones((h, m), dtype=xp.uint64)
-        hash_table = xp.cumprod(z, axis=0)[h-1]
-        nhash = xp.cumprod(needle+xp.ones(n), dtype=xp.uint64)[n-1]
+        z = xp.transpose(data) * mask + xp.ones((h, m), dtype=xp.uint64)
+        hash_table = xp.cumprod(z, axis=0)[h - 1]
+        nhash = xp.cumprod(needle + xp.ones(n), dtype=xp.uint64)[n - 1]
 
         for i in range(h - n + 1):
             if hash_table[i] == nhash:
