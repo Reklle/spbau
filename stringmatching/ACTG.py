@@ -2,6 +2,8 @@ import numpy as xp  # here imported or numpy or cupy
 
 from typing import Final
 
+import random
+
 COMPUTING_DEVICE: Final = "CPU"
 APPROX_SEARCH = False  # for little faster search
 
@@ -53,7 +55,7 @@ class StringMatching:
         """Return the positions of occurrences of substring in string,
         including **overlapping** ones"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return []
         if needle == "":
             return list(range(0, h))
@@ -63,7 +65,7 @@ class StringMatching:
         """Return the number of occurrences of substring in string,
         including **overlapping** ones"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return 0
         if needle == "":
             return len(self.haystack)
@@ -72,7 +74,7 @@ class StringMatching:
     def first(self, needle, search) -> int:
         """Return the first occurrence of substring in string"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return -1
         if needle == "":
             return 0
@@ -81,7 +83,7 @@ class StringMatching:
     def last(self, needle, search) -> int:
         """Return the last occurrence of substring in string"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return -1
         if needle == "":
             return h - 1
@@ -128,6 +130,9 @@ class StringMatching:
                     yield i
 
 
+
+
+
 class ACTGMathing:
     def __init__(self, haystack):
         self.haystack = xp.array(bytearray(haystack.encode('ascii')))
@@ -136,7 +141,7 @@ class ACTGMathing:
         """Return the positions of occurrences of substring in string,
         including **overlapping** ones"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return []
         if needle == "":
             return list(range(0, h))
@@ -146,7 +151,7 @@ class ACTGMathing:
         """Return the number of occurrences of substring in string,
         including **overlapping** ones"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return 0
         if needle == "":
             return len(self.haystack)
@@ -155,7 +160,7 @@ class ACTGMathing:
     def first(self, needle, search) -> int:
         """Return the first occurrence of substring in string"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return -1
         if needle == "":
             return 0
@@ -164,7 +169,7 @@ class ACTGMathing:
     def last(self, needle, search) -> int:
         """Return the last occurrence of substring in string"""
         h = len(self.haystack)
-        if h == 0:
+        if h == 0 or h < len(needle):
             return -1
         if needle == "":
             return h - 1
@@ -187,7 +192,8 @@ class ACTGMathing:
             if ok:
                 yield i
 
-    def rk(self, needle: str):
+    def srk(self, needle: str):
+        """Simple Rabin-Karp string-searching algorithm."""
         h = len(self.haystack)
         n = len(needle)
         needle = xp.array(bytearray(needle.encode('ascii')))
@@ -210,6 +216,30 @@ class ACTGMathing:
             if hash_table[i] == nhash:
                 if APPROX_SEARCH or xp.array_equal(self.haystack[i:i + n], needle):
                     yield i
+
+    def rk(self, needle):
+        h, n = len(self.haystack), len(needle)
+        needle = xp.array(bytearray(needle.encode('ascii')), dtype=xp.uint64)
+        
+        q = xp.uint64(2097169)  # prime number
+        b = xp.uint64(699007)  # prime base
+        c = xp.uint64(2262830726078993791)  # conjugated for b
+        pow = xp.uint64(1)
+
+        nhash = xp.uint64(0)
+        hash = xp.uint64(0)
+        for i in range(n):
+            nhash = xp.mod(xp.sum(nhash + needle[n - i - 1] * pow, dtype=xp.uint64), q)
+            hash = xp.mod(xp.sum(hash + self.haystack[n - i - 1] * pow, dtype=xp.uint64), q)
+            pow = xp.mod(pow * b, q)
+        if hash == nhash:
+            yield 0
+        for i in range(0, h-n):
+            hash = hash*b - self.haystack[i] * pow + self.haystack[i+n]
+            hash = xp.mod(hash, q)
+            #pow = xp.mod(pow * b, q)
+            if hash == nhash:
+                yield i+1
 
     def mrk(self, needle: str):
         """Works very unstable"""
