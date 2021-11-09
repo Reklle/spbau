@@ -5,7 +5,6 @@
 """
 
 import unittest
-import stralg
 import ACTG
 
 def rabin_karp(haystack, needle):
