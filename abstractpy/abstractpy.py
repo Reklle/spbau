@@ -85,14 +85,14 @@ def proj(obj):
     return obj
 
 
-g = CyclicGroup(3)
-t = proj(SymmetricGroup(6))
+g = CyclicGroup(4)
+t = proj(AlternatingGroup(3))
 #h = proj(Grp(formula='S3'))
 #p = Group(permutations=[[0,1], [2,1]])
 #p = proj(g * g)
 print(center(g**t))
-print(center(t**g))
-print(center(g**t**g))
+# print(center(t**g))
+# print(center(g**t**g))
 #show(t)
 #show(gg)
 #show(proj(h))
