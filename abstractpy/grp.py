@@ -1,9 +1,8 @@
-import itertools
 import math
 
 import numpy as np
 
-from permutations import permprod
+from permutations import *
 
 
 class Grp():
@@ -63,7 +62,8 @@ class Grp():
         b = np.zeros((grp.ord, grp.ord), dtype=np.uint16)
         for i in range(other.ord):
             for j in range(other.ord):
-                b[i * self.ord: i * self.ord + self.ord, j * self.ord: j * self.ord + self.ord] = other.cayley_table[i, j]
+                b[i * self.ord: i * self.ord + self.ord, j * self.ord: j * self.ord + self.ord] = other.cayley_table[
+                    i, j]
 
         grp.cayley_table = b * self.ord + a
         return grp
@@ -80,30 +80,34 @@ class TrivialGroup(Grp):
 
 class CyclicGroup(Grp):
     def __init__(self, n):
-        super().__init__()
-        self.info.append('Cyclic group')
-        self.ord = n
-        self.image = np.arange(0, n, dtype=np.uint16)
-        self.cayley_table = np.array([], dtype=np.uint16)
-        for i in range(0, n):
-            self.cayley_table = np.append(self.cayley_table, self.image)
-            self.image = np.roll(self.image, -1)
-        self.cayley_table = self.cayley_table.reshape((n, n))
+        if n > 0:
+            super().__init__()
+            self.info.append('Cyclic group')
+            self.ord = n
+            self.image = np.arange(0, n, dtype=np.uint16)
+            self.cayley_table = np.array([], dtype=np.uint16)
+            for i in range(0, n):
+                self.cayley_table = np.append(self.cayley_table, self.image)
+                self.image = np.roll(self.image, -1)
+            self.cayley_table = self.cayley_table.reshape((n, n))
+        else:
+            print('Error: invalid argument')
 
 
 class AlternatingGroup(Grp):
-    #todo
     def __init__(self, n):
-        if n > 1:
+        if n > 2:
             super().__init__()
-            super().info.append('Symmetric group')
-            self.ord = int(math.factorial(n)/2)
-            self.image = list(itertools.permutations(list(range(n))))
+            super().info.append('Alternating group')
+            self.ord = int(math.factorial(n) / 2)
+            self.image = even_permutations(n)
             table = []
             for i in self.image:
                 for e in self.image:
                     table.append(permprod(i, e))
             self.cayley_table = np.array(table, dtype=np.uint16).reshape(self.ord, self.ord, n)
+        else:
+            print('Error: invalid argument')
 
 
 class SymmetricGroup(Grp):
@@ -112,9 +116,11 @@ class SymmetricGroup(Grp):
             super().__init__()
             super().info.append('Symmetric group')
             self.ord = math.factorial(n)
-            self.image = list(itertools.permutations(list(range(n))))
+            self.image = all_permutations(n)
             table = []
             for i in self.image:
                 for e in self.image:
                     table.append(permprod(i, e))
             self.cayley_table = np.array(table, dtype=np.uint16).reshape(self.ord, self.ord, n)
+        else:
+            print('Error: invalid argument')
