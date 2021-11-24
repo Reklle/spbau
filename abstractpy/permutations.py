@@ -23,6 +23,7 @@ def all_permutations(n):
     """Return all possible permutations of n different elements"""
     return list(itertools.permutations(list(range(n))))
 
+
 def even_permutations(n):
     """Return only even permutations of n different elements"""
     ap = all_permutations(n)
