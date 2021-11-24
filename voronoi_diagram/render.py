@@ -6,7 +6,7 @@ RENDER_STEP = 1
 
 
 @njit(fastmath=True, parallel=True)
-def ray_casting(screen_array, screen_width, screen_height, points, target):
+def draw(screen_array, screen_width, screen_height, points, target):
     for x in range(0, screen_width, RENDER_STEP):
         for y in range(0, screen_height, RENDER_STEP):
             min = 10 ** 10
@@ -52,7 +52,7 @@ class Render:
         self.screen_array = np.full((app.width, app.height, 3), (0, 0, 0))
 
     def update(self):
-        self.screen_array = ray_casting(self.screen_array, self.app.width, self.app.height, self.app.points,
+        self.screen_array = draw(self.screen_array, self.app.width, self.app.height, self.app.points,
                                         self.app.target)
 
     def draw(self):
