@@ -1,19 +1,19 @@
 import astropy.units as u
 import matplotlib.pyplot as plt
 import numpy as np
+from einsteinpy.coordinates import BoyerLindquistDifferential
 from einsteinpy.coordinates.conversion import BoyerLindquistConversion as blc
 from einsteinpy.coordinates.conversion import CartesianConversion as cc
 from einsteinpy.geodesic import Geodesic
+from einsteinpy.metric import KerrNewman
 from einsteinpy.plotting import ShadowPlotter
 from einsteinpy.rays import Shadow
-from einsteinpy.metric import Kerr
-from einsteinpy.metric import KerrNewman
-from einsteinpy.coordinates import BoyerLindquistDifferential
+
 from corrupted_einsteinpy.static import StaticGeodesicPlotter
 
-A = 0.5       # rotating parameter
-Q = 0.5       # charge parameter
-M = 2e38    # mass
+A = 1  # rotating parameter
+Q = 0  # charge parameter
+M = 2e38  # mass
 
 
 def tr(a, b, c, d):
@@ -38,7 +38,7 @@ def show():
         v_th=0. * u.rad / u.s,
         v_p=0. * u.rad / u.s,
     )
-    kn = KerrNewman(coords=bl, M=M*u.kg, a=A*u.one, Q = Q*u.C, q = 0*u.C/u.kg)
+    kn = KerrNewman(coords=bl, M=M * u.kg, a=A * u.one, Q=Q * u.C, q=0 * u.C / u.kg)
     sing_dict = kn.singularities()
     theta = np.linspace(0, 2 * np.pi, 500)
     Ei, Eo = sing_dict["inner_ergosphere"], sing_dict["outer_ergosphere"]
@@ -78,7 +78,7 @@ def stable_geodesic(momentum):
 
     geod = Geodesic(
         metric="KerrNewman",
-        metric_params=(A,Q),
+        metric_params=(A, Q),
         position=position,
         momentum=momentum,
         steps=100,
@@ -107,7 +107,7 @@ def geodesic(position, momentum):
 
     geod = Geodesic(
         metric="Kerr",
-        metric_params=(A,Q),
+        metric_params=(A, Q),
         position=position,
         momentum=momentum,
         steps=100,
