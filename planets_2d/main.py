@@ -6,11 +6,12 @@ ax.set_ylim(-simulation.zoom, simulation.zoom)
 
 u = Universe()
 
-work(simulation, u)
+std_2d(simulation, u)
 
 
 def kepler(r, dr):
-    ds = np.cross(r, dr) / 2
+    r = np.array(r)  # coordinates shift
+    ds = np.cross(r - np.array(u.trace), dr) / 2
     axis = range(len(ds))
     plt.plot(axis, ds)
     plt.show()
@@ -27,10 +28,12 @@ def init():
     return lines
 
 
+# precalculate tail
 for i in range(simulation.tail):
     u.step()
 
 
+# animation
 def animate(t):
     fig.canvas.set_window_title(f'Passed time : {round(simulation.t, 2)} | Camera target : {simulation.target}')
     u.step()
@@ -65,33 +68,36 @@ def animate(t):
         return lines
 
 
+# interaction with matplotlib
 def onclick(event):
     # print(event.key)
-    if (event.key == '1'):
+    if event.key == '1':
         simulation.dt *= 1.5
-    elif (event.key == '2'):
+    elif event.key == '2':
         simulation.dt /= 1.5
-    elif (event.key == ' '):
+    elif event.key == ' ':
         if not simulation.pause:
             anim.pause()
             simulation.pause = 1
         else:
             anim.resume()
             simulation.pause = 0
-    elif (event.key == 'tab'):
+    elif event.key == 'tab':
         simulation.tab(len(u.objects))
 
 
-cid = fig.canvas.mpl_connect('key_press_event', onclick)
-
+# add animation and interactions to mpl window
 anim = FuncAnimation(fig, animate, init_func=init, frames=300, interval=5, blit=True)
+cid = fig.canvas.mpl_connect('key_press_event', onclick)
 
 plt.show()
 
+# show final picture of motions
 for o in u.objects:
     plt.plot(*tuple(map(list, zip(*o.trace))))
 plt.gca().set_aspect('equal')
 plt.show()
 
-kepler(planet_0.trace, planet_0.vtrace)
-kepler(planet_1.trace, planet_1.vtrace)
+# kepler's second law
+for o in u.objects:
+    kepler(o.trace, o.vtrace)

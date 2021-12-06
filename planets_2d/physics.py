@@ -18,7 +18,7 @@ class Simulation:
         self.G = 1
         self.c = 300
         self.pow = 1  # F ~ 1/r^pow
-        self.poa = 0.9  # amplitude of pow modulation
+        self.poa = 0  # amplitude of pow modulation
         self.pof = 100000  # frequency of pow modulation
 
     def power(self):
@@ -128,3 +128,4 @@ class Universe():
     def cosmic_spd(self, m, r):
         # with this trick I cat use perfectly circular orbits for any simulation.pow
         return np.sqrt(simulation.G * (self.mass - m) * np.linalg.norm(r - self.mass_centre()) ** (1 - simulation.pow))
+
