@@ -11,6 +11,9 @@ class Simulation:
     def __init__(self, **kwargs):
         self.dt = kwargs.get("dt", 0.005)
         self.pause = False
+        self.G = 1
+        self.c = 1
+        self.pow = 1
 
 
 simulation = Simulation()
@@ -50,26 +53,25 @@ class PType(CelestialBody):
         """Planet creates weak enough gravitation field.
         Returns acceleration."""
         n = np.linalg.norm(r)
-        return -r * self.mass / n ** 2
+        return -r * simulation.G * self.mass / n ** (simulation.pow + 1)
 
 
 class SType(CelestialBody):
     def __init__(self, rad, φ, dr, **kwargs):
         super().__init__(rad, φ, dr, **kwargs)
         self.mass = kwargs.get("mass", 1)
-        self.gravrad = self.mass / 9e16  # 9e16 = speed of light
+        self.gravrad = simulation.G * self.mass / simulation.c ** 2
 
     def F(self, r, dr):
         """Star creates weak strong gravitation field.
         Returns acceleration"""
         n = np.linalg.norm(r)
-        return -r * self.mass * np.exp(self.gravrad / n) / n ** 2
+        return -r * simulation.G * self.mass * np.exp(self.gravrad / n) / n ** (simulation.pow + 1)
 
 
 class Universe():
     def __init__(self, G=6.674e-11):
         """G - gravitation constant"""
-        self.G = G
         self.objects = []
         self.delobjects = []
 
@@ -142,10 +144,7 @@ def animate(t):
     return lines
 
 
-import matplotlib.backend_bases
-
-
-def onclick(event: matplotlib.backend_bases.KeyEvent):
+def onclick(event):
     # print(event.key)
     if (event.key == '1'):
         simulation.dt *= 1.5

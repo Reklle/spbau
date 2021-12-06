@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+from matplotlib.animation import FuncAnimation
 plt.style.use(['dark_background', 'seaborn-notebook'])  # you can also use 'bmh'
 
 fig = plt.figure()
