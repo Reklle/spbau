@@ -15,11 +15,11 @@ class Simulation:
         # -1     mass centre
         # 0      0th element in array
         # 1      1st element in array
-        self.G = 1
-        self.c = 300
+        self.G = 1  # gravitation constant
+        self.c = 300  # speed of light
         self.pow = 1  # F ~ 1/r^pow
         self.poa = 0  # amplitude of pow modulation
-        self.pof = 100000  # frequency of pow modulation
+        self.pof = 0  # frequency of pow modulation
 
     def power(self):
         return self.pow + self.poa * np.sin(self.pof * self.t)

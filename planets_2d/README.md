@@ -1,6 +1,11 @@
 ### Introduction:
 Use conda for better experience with matplotlib
 
+### Control:
+* 1, 2 - delta time control
+* tab - switch target object
+* space - pause
+
 ### Features:
 * optional speed of light and relativistic effects of gravitational motion
 * additional multiplicator `np.exp(self.gravrad / n)` for strong gravity fields [1]

@@ -1,12 +1,12 @@
 from configurations import *
 from graphics import *
 
-ax.set_xlim(-simulation.zoom, simulation.zoom)
-ax.set_ylim(-simulation.zoom, simulation.zoom)
-
 u = Universe()
 
-std_2d(simulation, u)
+# change configuration of universe
+# more interesting previews in configurations.py
+# check them all
+work_rel(simulation, u)
 
 
 def kepler(r, dr):
