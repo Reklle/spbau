@@ -12,7 +12,7 @@ class Simulation:
         self.dt = kwargs.get("dt", 0.005)
         self.pause = False
         self.G = 1
-        self.c = 1
+        self.c = 300
         self.pow = 1
 
 
@@ -42,6 +42,7 @@ class CelestialBody:
         self.r += self.new_r
         self.trace.append(copy.copy(self.r))
         self.vtrace.append(copy.copy(self.dr))
+
 
 
 class PType(CelestialBody):
@@ -85,7 +86,13 @@ class Universe():
             for b in self.objects:
                 if a != b:
                     force += b.F(a.r - b.r, a.dr)
-            a.dr += force * simulation.dt
+            force *= simulation.dt
+            rel = (np.linalg.norm(a.dr+force))/simulation.c
+            if rel < 1:
+                rel_mul = 1/np.sqrt(1-rel**2)  # relativistic!
+            else:
+                rel_mul = 0
+            a.dr += force * rel_mul
             a.new_r += a.dr * simulation.dt
         for a in self.objects:
             a.step()
@@ -95,8 +102,8 @@ u = Universe()
 
 star_a = SType(0, 0, np.array([0, 0], dtype=float), )
 star_a.mass = 10000
-star_b = SType(-7, 0, np.array([0, -70], dtype=float), )
-star_c = SType(7, 0, np.array([0, 70], dtype=float), )
+star_b = SType(-7, 0, np.array([0, -100], dtype=float), )
+star_c = SType(7, 0, np.array([0, 100], dtype=float), )
 planet_0 = PType(20, 0, np.array([0, 170], dtype=float), target=star_a)
 planet_0.mass = 10
 planet_1 = PType(-20, 0, np.array([0, 70], dtype=float), target=star_a)
