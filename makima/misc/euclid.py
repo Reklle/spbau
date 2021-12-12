@@ -53,5 +53,24 @@ class GCD:
         return g
 
 
+def fast_gcd(a, b):
+
+    if a == 0:
+        return b
+
+    if b == 0:
+        return a
+
+    if a % 2 == 0 and b % 2 == 0:
+        return 2 * fast_gcd(a // 2, b // 2)
+
+    if a % 2 == 0:
+        return fast_gcd(a // 2, b)
+
+    if b % 2 == 0:
+        return fast_gcd(a, b // 2)
+
+    return fast_gcd(abs(a-b), min(a, b))
+
 gcd = GCD(fast=1, bezout=0)
 xgcd = GCD(fast=1, bezout=1)
