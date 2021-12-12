@@ -54,21 +54,21 @@ class GCD:
 
 
 def fast_gcd(a, b):
-
+    # bits operations faster
     if a == 0:
         return b
 
     if b == 0:
         return a
 
-    if a % 2 == 0 and b % 2 == 0:
-        return 2 * fast_gcd(a // 2, b // 2)
+    if a & 2 and b & 2:
+        return 2 * fast_gcd(a >> 1, b >> 1)
 
-    if a % 2 == 0:
-        return fast_gcd(a // 2, b)
+    if a & 2 == 0:
+        return fast_gcd(a >> 1, b)
 
-    if b % 2 == 0:
-        return fast_gcd(a, b // 2)
+    if b & 2 == 0:
+        return fast_gcd(a, b >> 1)
 
     return fast_gcd(abs(a-b), min(a, b))
 
