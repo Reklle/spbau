@@ -70,7 +70,8 @@ def fast_gcd(a, b):
     if b & 2 == 0:
         return fast_gcd(a, b >> 1)
 
-    return fast_gcd(abs(a-b), min(a, b))
+    return fast_gcd(abs(a - b), min(a, b))
+
 
 gcd = GCD(fast=1, bezout=0)
 xgcd = GCD(fast=1, bezout=1)
