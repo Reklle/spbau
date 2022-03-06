@@ -22,8 +22,7 @@ class Generator():
 
     def fit(self, epochs=300):
         # let's learn some good words
-        data = testdata.data
-        keys = testdata.keys
+        data, keys = testdata.read_data()
         self.model.fit(data, to_categorical(keys), epochs=epochs, batch_size=32)
         self.model.save_weights('model.h5')
 
