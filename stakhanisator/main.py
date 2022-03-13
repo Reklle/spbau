@@ -32,6 +32,9 @@ dy = np.random.normal(0, np.sqrt(0.5 / m_2kT), n)
 
 @njit(fastmath=True, parallel=True)
 def step(x, y, dx, dy, n):
+
+    fsum = 0
+
     for q1 in range(spf):
 
         # gravitation
@@ -42,17 +45,25 @@ def step(x, y, dx, dy, n):
             # interaction with the box
             if x[i] < 2.5 * σ:
                 x6 = x[i] ** 6
-                dx[i] += (A + B / x6) / x6 * dt
+                f = (A + B / x6) / x6 * dt
+                fsum += f
+                dx[i] += f
             if W - x[i] < 2.5 * σ:
                 x6 = (x[i] - W) ** 6
-                dx[i] -= (A + B / x6) / x6 * dt
+                f = (A + B / x6) / x6 * dt
+                fsum += f
+                dx[i] -= f
 
             if y[i] < 2.5 * σ:
                 x6 = y[i] ** 6
-                dy[i] += (A + B / x6) / x6 * dt
+                f = (A + B / x6) / x6 * dt
+                fsum += f
+                dy[i] += f
             if H - y[i] < 2.5 * σ:
                 x6 = (y[i] - H) ** 6
-                dy[i] -= (A + B / x6) / x6 * dt
+                f = (A + B / x6) / x6 * dt
+                fsum += f
+                dy[i] -= f
 
             # forces between atoms
             for j in range(i + 1, n):
@@ -75,13 +86,22 @@ def step(x, y, dx, dy, n):
         x += dx * dt
         y += dy * dt
 
+    return fsum
+
 
 screen = pg.display.set_mode((W, H), pg.SCALED)
 pg.display.set_caption(f'Gas in box; 1 pix = {zoom}pm; simulation time : ' + str(time))
 
+fsum = 0
+
+S = 2*(H+W)/zoom
+
 while 1:
-    step(x, y, dx, dy, n)
+    fsum += step(x, y, dx, dy, n)*spf*dt
     time += spf * dt
+    print("Pressure, J/nm : " + str(fsum/time / S))
+
+
     pg.display.set_caption(f'Gas in box; 1 pix = {zoom}pm; simulation time : ' + str(time))
 
     screen.fill((0, 0, 0))
