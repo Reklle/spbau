@@ -105,7 +105,7 @@ def main(s):
             Y = []
             plot = True
             for x in X:
-                Y.append(float(eq.subs(list(eq.free_symbols)[0], x)))
+                Y.append(sp.re(eq.subs(list(eq.free_symbols)[0], x)))
             plt.plot(X, Y)
             plt.savefig(path)
             plt.cla()
