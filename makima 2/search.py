@@ -94,6 +94,7 @@ def main(s):
     for i in reversed(range(len(commands))):
         if commands[i] not in ['/dsolve']:
             eq = execute(commands[i], eq, args[i])
+            plot = True
         else:
 
             summary = dsolver.dsolve(eq, args[i])
