@@ -1,7 +1,9 @@
 import os
 
 import sympy as sp
-from matplotlib import pyplot as plt
+import matplotlib
+matplotlib.use('AGG')
+import matplotlib.pyplot as plt
 
 
 def dsolve(diffeq, args):

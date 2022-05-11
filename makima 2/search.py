@@ -2,8 +2,10 @@ import os
 
 import numpy as np
 import sympy as sp
-from matplotlib import pyplot as plt
-
+import matplotlib
+matplotlib.use('AGG')
+import matplotlib.pyplot as plt
+#plt.switch_backend('agg')
 import dsolver
 import functions.alias as z
 
@@ -94,7 +96,7 @@ def main(s):
     for i in reversed(range(len(commands))):
         if commands[i] not in ['/dsolve']:
             eq = execute(commands[i], eq, args[i])
-            
+
         else:
             plot = True
             summary = dsolver.dsolve(eq, args[i])
