@@ -70,6 +70,10 @@ def execute(command, arg0, args):
 
     if command in ['/isprime']:
         return sp.isprime(arg0)
+        # if sp.isprime(arg0):
+        #     return str(arg0) + "is a prime number"
+        # else:
+        #     return str(arg0) + "is not a prime number"
 
     if command in ['/random']:
         if len(args) == 0:
@@ -77,11 +81,27 @@ def execute(command, arg0, args):
         if len(args) == 1:
             return np.random.random() * float(args[0])
 
-    if command in ['/random']:
+    if command in ['/nextprime']:
         if len(args) == 0:
-            return np.random.random()
+            return sp.nextprime(arg0)
         if len(args) == 1:
-            return np.random.random() * float(args[0])
+            return sp.nextprime(arg0, args[0])
+
+    if command in ['/sum']:
+        if len(args) == 0:
+            return np.sum(arg0)
+
+    if command in ['/prod', '/product']:
+        if len(args) == 0:
+            return np.product(arg0)
+
+    if command in ['/std', '/sd']:
+        if len(args) == 0:
+            return np.std(np.array(arg0, float))
+
+    if command in ['/type', '/dtype']:
+        if len(args) == 0:
+            return type(arg0).__name__
 
 
 def main(s):
@@ -116,4 +136,7 @@ def main(s):
     if isinstance(eq, sp.Basic):
         return sp.latex(sp.N(eq)), sp.latex(eq), plot, summary
 
-    return eq, plot, summary
+    if isinstance(eq, str):
+        return "", sp.latex(eq), plot, ""
+
+    return eq, "", "", ""
