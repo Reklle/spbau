@@ -11,7 +11,7 @@ library(caracas)
 #  subs    --   substitution
 #  eval    --   evaluate
 #  solve_sys(eq, x)
-
+#  taylor(f, x0 = 0, n = 4+1)
 
 x <- symbol('x')
 eq <- 2*x^2 - x
