@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
 
@@ -11,33 +11,31 @@
     <title>Makima</title>
 
     <style type="text/css">
-/* What it does: Remove spaces around the email design added by some email clients. */
-      /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
 html, body {
 	margin: 0 !important;
 	padding: 0 !important;
 	height: 100% !important;
 	width: 100% !important;
 }
-/* What it does: Stops email clients resizing small text. */
+
 * {
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 }
-/* What it does: Forces Outlook.com to display emails full width. */
+
 .ExternalClass {
 	width: 100%;
 }
-/* What is does: Centers email on Android 4.4 */
+
 div[style*="margin: 16px 0"] {
 	margin: 0 !important;
 }
-/* What it does: Stops Outlook from adding extra spacing to tables. */
+
 table, td {
 	mso-table-lspace: 0pt !important;
 	mso-table-rspace: 0pt !important;
 }
-/* What it does: Fixes webkit padding issue. Fix for Yahoo mail table alignment bug. Applies table-layout to the first 2 tables then removes for anything nested deeper. */
+
 table {
 	border-spacing: 0 !important;
 	border-collapse: collapse !important;
@@ -47,18 +45,19 @@ table {
 table table table {
 	table-layout: auto;
 }
-/* What it does: Uses a better rendering method when resizing images in IE. */
+
 img {
 	-ms-interpolation-mode: bicubic;
 }
-/* What it does: Overrides styles added when Yahoo's auto-senses a link. */
+
 .yshortcuts a {
 	border-bottom: none !important;
 }
-/* What it does: Another work-around for iOS meddling in triggered links. */
+
 a[x-apple-data-detectors] {
 	color: inherit !important;
 }
+
 
 
     </style>
@@ -71,6 +70,7 @@ a[x-apple-data-detectors] {
 	background: #555555 !important;
 	border-color: #555555 !important;
 }
+
 
 
     </style>
@@ -99,12 +99,28 @@ a[x-apple-data-detectors] {
                                                         <big>Makima</big>
                                                         <button onclick="toggle_display()">/help</button>
 
-                                                        <div class="content_section" style="visibility: hidden; height : 0">
-                                                            <p><a href="?arg=%2Fdiff+{x}+sin(x)"><strong>/diff{x} sin(x)</strong></a> Differentiation</p>
-                                                            <p><a href="?arg=%2Frandom"><strong>/random</strong></a> Random number from 0 to 1</p>
-                                                            <p><a href="?arg=%2Frandom"><strong>/random{4}</strong></a> Random number from 0 to 4</p>
-                                                            <p><a href="?arg=q_Sin%28x%2C0.93%29"><strong>q_Sin(x,0.93)</strong></a> q-analog avaliable</p>
-                                                            <p><a href="?arg=q_Sin%28x%2C0.93%29"><strong>/dsolve ddx + dx +x</strong></a> numerical solution of differential equation </p>
+                                                        <div class="content_section"
+                                                             style="visibility: hidden; height : 0">
+                                                            <p><a href="?arg=%2Fdiff+{x}+sin(x)"><strong>/diff{x}
+                                                                sin(x)</strong></a> Differentiation</p>
+                                                            <p><a href="?arg=%2Frandom"><strong>/random</strong></a>
+                                                                Random number from 0 to 1</p>
+                                                            <p><a href="?arg=%2Frandom"><strong>/random{4}</strong></a>
+                                                                Random number from 0 to 4</p>
+                                                            <p>
+                                                                <a href="?arg=q_Sin%28x%2C0.93%29"><strong>q_Sin(x,0.93)</strong></a>
+                                                                q-analog avaliable</p>
+                                                            <p><a href="?arg=%2Fdsolve+ddx+%2B+dx+%2Bx"><strong>/dsolve ddx +
+                                                                dx +x</strong></a> numerical solution of differential
+                                                                equation </p>
+                                                            <p><a href="?arg=%2Fdsolve{1000}+ddx+%2B+0.5*dx+%2Bx"><strong>/dsolve{1000} ddx + 0.5*dx +x</strong></a> number of intgration steps = 1000</p>
+                                                            <p><a href="?arg=%2Fisprime+12345"><strong>/isprime 12345</strong></a> prime test</p>
+                                                            <p><a href="?arg=%2Ffactor+122"><strong>/factor 12345</strong></a> integer factorization</p>
+                                                            <p><a href="?arg=%2Ffactor+122"><strong>/nextprime 29</strong></a> get the next prime number</p>
+                                                            <p><a href="?arg=%2Fsum+[1%2C2%2C3]"><strong>/sum [1,2,3]</strong></a> sum of array</p>
+                                                            <p><a href="?arg=%2Fprod+[1%2C2%2C3%2C4]"><strong>/prod [1,2,3,4]</strong></a> product of array</p>
+                                                            <p><a href="?arg=%2Ftype+[1%2C2%2C3%2C4]"><strong>/type [1,2,3,4]</strong></a> data type</p>
+                                                            <p><a href="?arg=%2Ftype++[1%2C2%2C3%2C4%2C5%2C6]"><strong>/type /factor /sum [1,2,3,4,5,6]</strong></a> commands combination is avaliable</p>
                                                         </div>
                                                         <script type="text/javascript">
 function toggle_display(){
@@ -118,12 +134,13 @@ function toggle_display(){
      el.style.height = '0'
   }
 }
+
                                                         </script>
 
 
                                                         <br>
                                                         <form method="GET" style="margin-top: 30px">
-                                                            <input  autofocus style="width: 100%;
+                                                            <input autofocus style="width: 100%;
     color: rgb(38, 50, 56);
     font-weight: 700;
     font-size: 14px;
@@ -154,7 +171,8 @@ function toggle_display(){
                                                         <br/>
                                                         {% if latex != "" %}
                                                         <div style="text-align: center;">$${{latex}}$$</div>
-                                                        <p style="text-align: center; color: #808080;"><span ><em>{{latex}}</em></span></p>
+                                                        <p style="text-align: center; color: #808080;"><span><em>{{latex}}</em></span>
+                                                        </p>
                                                         {% endif %}
 
                                                         {% if eval != "" %}
@@ -162,14 +180,16 @@ function toggle_display(){
                                                         <big>Evaluation</big>
                                                         <br>
                                                         <div style="text-align: center;">$${{eval}}$$</div>
-                                                        <p style="text-align: center; color: #808080;"><span ><em>{{eval}}</em></span></p>
+                                                        <p style="text-align: center; color: #808080;"><span><em>{{eval}}</em></span>
+                                                        </p>
                                                         {% endif %}
 
 
                                                         {% if plot %}
                                                         <br>
                                                         <big>Plot</big>
-                                                        <img width="100%" src="{{url_for('static', filename='save.png')}}">
+                                                        <img width="100%"
+                                                             src="{{url_for('static', filename='save.png')}}">
                                                         {% endif %}
 
                                                         <br> {{rand}}
