@@ -1,3 +1,3 @@
 # spbau
 
-working hard......
+There is some programms on Python and R.
