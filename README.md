@@ -1,6 +1,11 @@
-# spbau
 
-There is some programms on Python and R.
+#### Roadmap
+* ``makima: core`` -- core for working with all makima-like projects
+* to makima-lize _fractals_ and _onim_
+---
+
+There is some programms on Python and R:
+
 
 #### Samples and lessons:
 ``data sciense on R``  
